@@ -5,15 +5,14 @@ import torch
 
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 from sentence_transformers import SentenceTransformer
-#from rank_bm25 import BM25Okapi
+from rank_bm25 import BM25Okapi
 import numpy as np
 
 import asyncio
 import nest_asyncio
 
+# Apply nest_asyncio to avoid event loop conflicts
 nest_asyncio.apply()
-
-from rank_bm25 import BM25Okapi
 
 # ===========================
 # Load embedding & language model
@@ -25,7 +24,7 @@ language_model = AutoModelForSeq2SeqLM.from_pretrained("google/flan-t5-small")
 # ===========================
 # Load financial data from CSV
 # ===========================
-data = pd.read_csv(r'C:\Users\rosik\OneDrive\Documents\M-Tech BITS\Sem 3\Conv AI\Assignment\microsoft_detailed_financials.csv')
+data = pd.read_csv('microsoft_detailed_financials.csv')
 
 # Combine all columns as text chunks for retrieval
 data['combined_text'] = data.apply(lambda x: f"Year: {x['Year']}, Quarter: {x['Quarter']}, Revenue: ${x['Revenue_Billion_USD']} Billion, Net Income: ${x['Net_Income_Billion_USD']} Billion", axis=1)
@@ -97,11 +96,10 @@ if combined_results:
         confidence_score = max(0, min(confidence_score, 100))
 
         # Display Answer in Streamlit
-        st.markdown("###Answer:")
+        st.markdown("### Answer:")
         st.success(answer)
-        st.markdown(f"** Confidence Score:** {confidence_score}%")
+        st.markdown(f"**Confidence Score:** {confidence_score}%")
     else:
         st.warning("No relevant financial statements found.")
-
 else:
-    st.warning("No relevant financial statements found.")
+    st.warning("Please enter a financial question.")
