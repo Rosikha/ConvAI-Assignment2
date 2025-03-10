@@ -8,11 +8,6 @@ from sentence_transformers import SentenceTransformer
 from rank_bm25 import BM25Okapi
 import numpy as np
 
-import asyncio
-import nest_asyncio
-
-# Apply nest_asyncio to avoid event loop conflicts
-nest_asyncio.apply()
 
 # ===========================
 # Load embedding & language model
