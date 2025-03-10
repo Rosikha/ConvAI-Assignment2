@@ -8,6 +8,11 @@ from sentence_transformers import SentenceTransformer
 #from rank_bm25 import BM25Okapi
 import numpy as np
 
+import asyncio
+import nest_asyncio
+
+nest_asyncio.apply()
+
 from rank_bm25 import BM25Okapi
 
 # ===========================
